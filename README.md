@@ -1,4 +1,4 @@
-# Review: Strings Lab
+# Strings Lab
 
 ## Learning Goals
 
