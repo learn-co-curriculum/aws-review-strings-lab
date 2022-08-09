@@ -9,13 +9,13 @@
 ## Introduction
 
 For this lab, you've just been onboarded to the dev team working on Flatbook,
-the world's premier Flatiron School-based social network. At the moment, the
+the world's premier social network. At the moment, the
 view that our users see upon logging in is pretty generic. We'd like to improve
 the user experience by adding some custom greeting capabilities.
 
 ## Work Through Failing Tests in a JavaScript Test Suite
 
-To start off, let's run the test suite with the `learn test` command. Our code
+To start off, let's install our dependencies with `npm i`. Once that's finished, run the test suite with the `npm test` command. Our code
 is currently failing all of the tests, but we expected that because we haven't
 done anything yet. Let's get to work!
 
@@ -96,34 +96,16 @@ literal string `"currentUser"`. It's important to understand the distinction:
 
 The JavaScript engine sees a matching pair of single quotes (`' '`), creates a
 new string, and assumes that _everything_ in between the matching punctuation
-marks is part of that string. For example, if we add quotation marks around the
-first line of code that we wrote, it becomes a simple string consisting of 35
-characters:
-
-```js
-typeof "const currentUser = 'Grace Hopper';";
-//=> "string"
-
-"const currentUser = 'Grace Hopper';".length;
-//=> 35
-
-currentUser;
-//=> Uncaught ReferenceError: currentUser is not defined
-```
-
-As demonstrated by the last line in that snippet, because we turned our code
-into a string it no longer functions as JavaScript code for declaring and
-assigning a `currentUser` variable.
+marks is part of that string. 
 
 Since we want `welcomeMessage` to contain both `'Welcome to Flatbook, '` and the
-value stored in `currentUser`, we have two options: **concatenation** and
+_value_ stored in `currentUser`, we have two options: **concatenation** and
 **interpolation**.
 
 ## Concatenate Strings with the `+` Operator
 
 String concatenation is a way to take two strings and add one to the other,
-creating a single, longer string. The easiest way to concatenate strings in
-JavaScript is with the `+` operator, like so:
+creating a single, longer string. We just learned how to do so by using the `+` operator, like so:
 
 ```js
 "High " + "five!";
@@ -144,12 +126,12 @@ const welcomeMessage = 'Welcome to Flatbook, ' + currentUser;
 ```
 
 If we run the test suite with our updated code, we'll see both the second and
-third tests passing! However, before we move on, let's talk about interpolation.
+third tests passing! However, before we move on, let's review interpolation.
 
 ## Interpolate Variables and Other JavaScript Expressions Inside Template Literals
 
 String interpolation lets us dynamically insert values in the middle of a
-string. To do this, we need to use [template literals][template literals], which
+string. To do this, use [template literals][template literals], which
 are simply strings wrapped in backticks rather than single or double quotes.
 Template literals enable us to interpolate the value of a variable into a string
 by wrapping the variable in curly braces preceded by a dollar sign:
@@ -207,7 +189,7 @@ const welcomeMessage = `Welcome to Flatbook, ${currentUser}!`;
 
 Four tests down, six to go!
 
-## Read the MDN Documentation on String Methods and Practice Using a Few
+## Read the MDN Documentation on String Methods and Practice One
 
 ### `excitedWelcomeMessage`
 
@@ -234,182 +216,26 @@ or lowercase. There are lots of other [string methods][string methods] that
 you'll find useful at various points throughout your JavaScript programming
 career.
 
-Rerun the tests; you should see the first seven tests passing. Woohoo!
+Rerun the tests; you should see all seven tests passing. Woohoo! Great work!
 
-#### `shortGreeting`
+## Submit Assignment 
 
-The mobile team at Flatbook is busy redesigning the site for smaller devices,
-and they're a bit concerned about how much real estate the `welcomeMessage`
-takes up on the screen. They want us to create a shorter version that truncates
-the `currentUser`'s name into just their first initial.
+Now that you've passed all tests, don't forget to submit your assignment. We'll 
+walk through the steps once more, but in the future this should start to feel 
+familiar enough that you no longer need these instructions! 
 
-If you take a look at the first error, you'll see that the JavaScript engine is
-telling us that it can't find `shortGreeting`:
+**Push your work to GitHub**
+1. Track all the work you did for the lab using `git add -A`.
+  - Again, make sure you are in the root directory of the cloned lab when running this command.
+2. Save all the work you just tracked using `git commit -m "some message here"` 
+  - Be sure your message is informative but succint, for example "complete lab".
+3. Push all the work you tracked and save to your forked version of the lab on GitHub using `git push origin main` 
 
-```js
-shortGreeting
-  contains "Welcome, "
-    ReferenceError: shortGreeting is not defined
-```
-
-Once we define it in `index.js`:
-
-```js
-...
-
-const shortGreeting = '';
-```
-
-we see a new error from the test suite:
-
-```js
-shortGreeting
-  contains "Welcome, "
-    AssertionError: expected '' to contain 'Welcome, '
-```
-
-It expected `shortGreeting` to contain the string `"Welcome, "`, but
-`shortGreeting` is currently an empty string, `''`. We can fix that now:
-
-```js
-...
-
-const shortGreeting = 'Welcome, ';
-```
-
-Next up is another `AssertionError`, this one checking that `shortGreeting`
-contains the first letter from `currentUser`:
-
-```js
-shortGreeting
-  contains the first initial of the name stored in the 'currentUser' variable
-    AssertionError: expected 'Welcome, ' to contain 'G'
-```
-
-To get a sense of how specific the tests are, let's start by adding the entirety
-of `currentUser` to `shortGreeting`:
-
-```js
-const currentUser = 'Grace Hopper';
-
-...
-
-const shortGreeting = `Welcome, ${currentUser}`;
-```
-
-Notice that we changed the single quotes to backticks, which allows us to
-interpolate with `${ }`.
-
-The new error reads as follows:
-
-```js
-shortGreeting
-  contains the first initial of the name stored in the 'currentUser' variable
-    AssertionError: expected 'Welcome, Grace Hopper' to not contain 'race Hopper'
-```
-
-The test suite checks that `shortGreeting` contains the first character in
-`currentUser` (`G` in our example) and that it *doesn't* contain the rest of the
-string (`race Hopper`).
-
-There are a few different ways we could get just the first character of
-`currentUser`. The easiest would be to use [bracket notation or the `.charAt()`
-method][character access] to grab the character at index `0`:
-
-```js
-'Edsger Dijkstra'[0];
-//=> "E"
-
-'Edsger Dijkstra'.charAt(0);
-//=> "E"
-```
-
-However, it's a good practice to make our code flexible and future-proof it a
-bit. What if our product team decides it would be better to shorten
-`currentName` to two characters instead of one? Or three characters?
-
-For the added flexibility, we're going to use `.slice()`, but you can always
-explore the [MDN documentation on string methods][string methods] to pick out
-your own strategy.
-
-#### `.slice()`
-
-If you take a look at the documentation for [`.slice()`][slice], you will see
-the following description:
-
-> The **slice()** method extracts a section of a string and returns it as a new
-> string, without modifying the original string.
-
-The method takes two arguments: the index at which the extraction should begin
-and the index *before which* it should end. When we talk about indexes of a
-string, we're talking about how to access specific characters at various points
-within the string. Recall that computers start counting with 0. Because we start
-at index `0` instead of `1`, the index of each character in a string is always
-one less than the character's place in the string. The second character is at
-index `1`, the fifth at index `4`, the twelfth at index `11`, and so on. The
-index of the last character is always one less than the [length][length] of the
-string:
-
-```js
-'Edsger Dijkstra'.length;
-//=> 15
-
-'Edsger Dijkstra'[15];
-//=> undefined
-
-'Edsger Dijkstra'[14];
-//=> "a"
-```
-
-If we omit both arguments, `.slice()` will return a full copy of the original
-string:
-
-```js
-'Edsger Dijkstra'.slice();
-//=> "Edsger Dijkstra"
-```
-
-If we provide a single argument, `.slice()` will return a copy from that index
-to the end of the string. For example, to grab Dijkstra's last name, we could
-start the slice on index `7`:
-
-```js
-'Edsger Dijkstra'.slice(7);
-//=> "Dijkstra"
-```
-
-If we wanted the first three characters of Dijkstra's name, we would specify `0`
-as the first argument, the index at which to start, and `3` as the second
-argument, the index before which to end:
-
-```js
-'Edsger Dijkstra'.slice(0, 3);
-//=> "Eds"
-```
-
-To satisfy our team's current specifications for `shortGreeting`, we need to
-start our slice at index `0` and end it before index `1`:
-
-```js
-currentUser.slice(0, 1);
-```
-
-Now, when our product team asks us to use the first two characters of
-`currentUser`, the change is as simple as `currentUser.slice(0, 1)` →
-`currentUser.slice(0, 2)`.
-
-Add an exclamation point to the end, and the entire test suite should be
-passing:
-
-```js
-const currentUser = 'Grace Hopper';
-
-...
-
-const shortGreeting = `Welcome, ${currentUser.slice(0, 1)}!`;
-```
-
-Great work!
+**Submit your work on Canvas**
+1. Copy the link for your GitHub fork of the lab.
+  - Check the link to make sure you see **your** username. If it's not there, you are _not_ copying your forked version.
+2. Go back to the Canvas assignment for this lab and click the **Start Assignment** button at the top. 
+3. Paste in the copied link into the Website URL box and hit submit.
 
 ## Resources
 
@@ -421,7 +247,6 @@ Great work!
 - [MDN — String — Methods][string methods]
   - [MDN — `.toUpperCase()`][toUpperCase]
   - [MDN — `.toLowerCase()`][toLowerCase]
-  - [MDN — `.slice()`][slice]
 
 [open JS console]: https://webmasters.stackexchange.com/questions/8525/how-do-i-open-the-javascript-console-in-different-browsers/77337#77337
 [template literals]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
@@ -431,4 +256,3 @@ Great work!
 [character access]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String#Character_access
 [toUpperCase]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toUpperCase
 [toLowerCase]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLowerCase
-[slice]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/slice
